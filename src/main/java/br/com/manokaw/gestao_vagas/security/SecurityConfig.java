@@ -15,6 +15,9 @@ public class SecurityConfig {
 
     @Autowired
     private SecurityFilter securityFilter;
+
+    @Autowired
+    private SecurityCandidateFilter securityCandidateFilter;
     
      // Bean responsável por configurar a cadeia de filtros de segurança
     @Bean
@@ -25,13 +28,15 @@ public class SecurityConfig {
                 // Define as rotas públicas que não precisam de autenticação
                 auth.requestMatchers("/candidate/").permitAll() // Acesso público à rota /candidate/
                 .requestMatchers("/company/").permitAll() // Acesso público à rota /company/
-                .requestMatchers("/auth/company").permitAll() // Acesso público à rota de autenticação /auth/company
+                .requestMatchers("/company/auth").permitAll() // Acesso público à rota de autenticação /auth/company
                 .requestMatchers("/candidate/auth").permitAll();
 
                 // Qualquer outra requisição precisa estar autenticada
                 auth.anyRequest().authenticated();
             })
+            .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)
             .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
+            
         
         ;
         // Retorna o objeto SecurityFilterChain com as configurações definidas

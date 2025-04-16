@@ -16,14 +16,14 @@ import br.com.manokaw.gestao_vagas.modules.company.useCases.AuthCompanyUseCase;
 
 // Define que essa classe é um controller REST e que responderá requisições para "/auth"
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/company")
 public class AuthCompanyController {
     
     // Injeta automaticamente a instância de AuthCompanyUseCase (injeção de dependência)
     @Autowired
     private AuthCompanyUseCase authCompanyUseCase;
 
-    @PostMapping("/company")
+    @PostMapping("/auth")
     public ResponseEntity<Object> create(@RequestBody AuthCompanyDTO authCompanyDTO){
         try{
             // Executa o caso de uso de autenticação com os dados recebidos
