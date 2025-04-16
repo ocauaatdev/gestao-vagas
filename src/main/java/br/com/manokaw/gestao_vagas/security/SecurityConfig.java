@@ -25,7 +25,8 @@ public class SecurityConfig {
                 // Define as rotas públicas que não precisam de autenticação
                 auth.requestMatchers("/candidate/").permitAll() // Acesso público à rota /candidate/
                 .requestMatchers("/company/").permitAll() // Acesso público à rota /company/
-                .requestMatchers("/auth/company").permitAll(); // Acesso público à rota de autenticação /auth/company
+                .requestMatchers("/auth/company").permitAll() // Acesso público à rota de autenticação /auth/company
+                .requestMatchers("/candidate/auth").permitAll();
 
                 // Qualquer outra requisição precisa estar autenticada
                 auth.anyRequest().authenticated();
