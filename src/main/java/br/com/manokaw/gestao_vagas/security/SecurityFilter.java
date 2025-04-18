@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -23,21 +24,28 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-            SecurityContextHolder.getContext().setAuthentication(null);
+            // SecurityContextHolder.getContext().setAuthentication(null);
             String header = request.getHeader("Authorization");
 
            if (request.getRequestURI().startsWith("/company")) {
             
             if(header != null){
-                var subjectToken = this.jwtProvider.validateToken(header);
-                 if (subjectToken.isEmpty()) {
+                var token = this.jwtProvider.validateToken(header);
+                 if (token == null) {
                      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                      return;
                  }
-                 request.setAttribute("company_id", subjectToken);
-                 UsernamePasswordAuthenticationToken auth =
-                 new UsernamePasswordAuthenticationToken(subjectToken, null, Collections.emptyList());
-                 SecurityContextHolder.getContext().setAuthentication(auth);
+
+                 var roles = token.getClaim("roles").asList(Object.class); // Obtem as roles do token
+                 var grants = roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString().toUpperCase()))
+                    .toList(); // Converte as roles em SimpleGrantedAuthority
+
+                 request.setAttribute("company_id", token.getSubject()); // Adiciona o company_id no request
+                UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(token.getSubject(), null,
+                    grants); // Cria o token de autenticação
+                 SecurityContextHolder.getContext().setAuthentication(auth); // Adiciona o token de autenticação no contexto de segurança
              }
            }
 

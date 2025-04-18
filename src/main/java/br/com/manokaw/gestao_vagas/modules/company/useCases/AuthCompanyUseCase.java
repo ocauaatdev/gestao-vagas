@@ -2,6 +2,7 @@ package br.com.manokaw.gestao_vagas.modules.company.useCases;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 import javax.naming.AuthenticationException;
 
@@ -15,6 +16,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.manokaw.gestao_vagas.modules.company.dto.AuthCompanyDTO;
+import br.com.manokaw.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
+import br.com.manokaw.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO.AuthCompanyResponseDTOBuilder;
 import br.com.manokaw.gestao_vagas.modules.company.repositories.CompanyRepository;
 
 @Service // Indica que esta classe é um componente do tipo "Service" do Spring (lógica de negócio)
@@ -32,6 +35,8 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    
+
     /**
      * Método responsável por autenticar uma empresa e gerar um token JWT caso os dados estejam corretos.
      * 
@@ -39,7 +44,9 @@ public class AuthCompanyUseCase {
      * @return token JWT caso a autenticação seja bem-sucedida
      * @throws AuthenticationException caso o username não exista ou a senha esteja incorreta
      */
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+
+
+    public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         // Busca a empresa pelo username informado
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(
             () -> {
@@ -59,14 +66,22 @@ public class AuthCompanyUseCase {
         // Se a senha estiver correta, gera um token JWT usando a chave secreta
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
+        var expiresIn = Instant.now().plus(Duration.ofHours(2)); // Define a expiração do token para 2 horas a partir de agora
+
         // Cria o token com emissor e o ID da empresa como "subject"
         var token = JWT.create()
             .withIssuer("javagas") // nome identificador da aplicação
-            .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
             .withSubject(company.getId().toString()) // define o ID da empresa como subject
+            .withExpiresAt(expiresIn)
+            .withClaim("roles", Arrays.asList("COMPANY")) // define o papel da empresa como COMPANY
             .sign(algorithm); // assina o token com o algoritmo e a chave secreta
 
-        // Retorna o token gerado
-        return token;
+
+        var authCompanyResponseDTO = AuthCompanyResponseDTO.builder()
+        .acess_token(token)
+        .expires_in(expiresIn.toEpochMilli())// define o tempo de expiração do token em milissegundos
+        .build(); 
+        
+        return authCompanyResponseDTO; // Retorna o DTO com o token e o tempo de expiração
     }
 }
