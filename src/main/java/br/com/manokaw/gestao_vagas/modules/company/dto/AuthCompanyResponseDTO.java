@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // gera um construtor com todos os argumentos
 // DTO (Data Transfer Object) para a resposta de autenticação da empresa
 public class AuthCompanyResponseDTO {
+
+    // Essa classe é usada para armazenar a resposta da autenticação da empresa no sistema, ela contém os dados necessários para a autenticação.
     
-    private String acess_token;
-    private Long expires_in;
+    private String acess_token; // Token de acesso gerado após a autenticação
+    private Long expires_in; // Tempo de expiração do token em segundos
 }

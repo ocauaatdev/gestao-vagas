@@ -19,14 +19,16 @@ public class AuthCandidateController {
     private AuthCandidateUseCase authCandidateUseCase;
 
     @PostMapping("/auth")
-    public ResponseEntity<Object> auth(@RequestBody AuthCandidateRequestDTO authCandidateRequestDTO){
+    public ResponseEntity<Object> auth(@RequestBody AuthCandidateRequestDTO authCandidateRequestDTO){ // recebe o request body e o transforma em um objeto AuthCandidateRequestDTO
         
         try {
-            var token = this.authCandidateUseCase.execute(authCandidateRequestDTO);
-            return ResponseEntity.ok(token);
+            var token = this.authCandidateUseCase.execute(authCandidateRequestDTO); // chama o use case
+            return ResponseEntity.ok(token); // retorna o token
         } catch (Exception e) {
             // TODO: handle exception
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage()); // retorna o erro
         }
     }
+
+
 }

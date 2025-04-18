@@ -19,6 +19,9 @@ import lombok.Data;
 @Entity(name="candidate")  // Define que esta classe é uma entidade JPA e será mapeada para a tabela "candidate"
 public class CandidateEntity {
 
+    // Atributos da entidade CandidateEntity, que representa um candidato no sistema de gestão de vagas
+    // Cada atributo corresponde a uma coluna na tabela "candidate" no banco de dados
+
     @Id  // Indica que este campo é a chave primária da entidade
     @GeneratedValue(strategy = GenerationType.UUID)  // Gera automaticamente um UUID como identificador único
     private UUID id;

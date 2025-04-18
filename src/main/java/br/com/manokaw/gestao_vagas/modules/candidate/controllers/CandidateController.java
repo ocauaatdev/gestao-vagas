@@ -29,11 +29,11 @@ public class CandidateController {
     @PostMapping("/")
     public ResponseEntity<Object> create( @Valid @RequestBody CandidateEntity candidateEntity){
         try {
-            var result = this.createCandidateUseCase.execute(candidateEntity);
-            return ResponseEntity.ok().body(result);
+            var result = this.createCandidateUseCase.execute(candidateEntity); // Chama o caso de uso para criar um candidato 
+            return ResponseEntity.ok().body(result); // Retorna uma resposta HTTP 200 OK com o resultado da criação do candidato 
         } catch (Exception e) {
             
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()); // Retorna uma resposta HTTP 400 Bad Request com a mensagem de erro caso ocorra uma exceção durante o processo de criação do candidato
         }
     }
 
@@ -41,13 +41,13 @@ public class CandidateController {
     @PreAuthorize("hasRole('CANDIDATE')") // Define que este endpoint requer autorização com a role 'candidate'
     public ResponseEntity<Object> get(HttpServletRequest request){
 
-        var idCandidate = request.getAttribute("candidate_id");
+        var idCandidate = request.getAttribute("candidate_id"); // Obtém o ID do candidato a partir do atributo da requisição HTTP
         try {
-            var profile = this.profileCandidateUseCase.execute(UUID.fromString(idCandidate.toString()));
-            return ResponseEntity.ok().body(profile);
+            var profile = this.profileCandidateUseCase.execute(UUID.fromString(idCandidate.toString())); // Chama o caso de uso para obter o perfil do candidato
+            return ResponseEntity.ok().body(profile); // Retorna uma resposta HTTP 200 OK com o perfil do candidato
         } catch (Exception e) {
             
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()); // Retorna uma resposta HTTP 400 Bad Request com a mensagem de erro caso ocorra uma exceção durante o processo de obtenção do perfil do candidato
         }
         
     }

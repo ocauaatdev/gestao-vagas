@@ -18,6 +18,9 @@ public class CreateCandidateUseCase {
     private PasswordEncoder passwordEncoder;
 
     public CandidateEntity execute(CandidateEntity candidateEntity){
+        // Método responsável por criar um novo candidato no sistema
+        // Ele recebe um objeto CandidateEntity, que contém as informações do candidato a ser criado
+
         // Antes de salvar, verifica se já existe um candidato com o mesmo username ou email
         this.candidateRepository
         .findByUsernameOrEmail(candidateEntity.getUsername(), candidateEntity.getEmail()).
@@ -30,6 +33,6 @@ public class CreateCandidateUseCase {
         var password = passwordEncoder.encode(candidateEntity.getPassword()); //Criptografa senha
         candidateEntity.setPassword(password); //lança senha criptografada no banco de dados
 
-        return this.candidateRepository.save(candidateEntity);
+        return this.candidateRepository.save(candidateEntity); //Salva o candidato no banco de dados e retorna o objeto CandidateEntity salvo
     }
 }

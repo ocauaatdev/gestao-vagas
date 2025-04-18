@@ -19,12 +19,15 @@ import br.com.manokaw.gestao_vagas.modules.company.useCases.AuthCompanyUseCase;
 @RequestMapping("/company")
 public class AuthCompanyController {
     
+    
     // Injeta automaticamente a instância de AuthCompanyUseCase (injeção de dependência)
     @Autowired
     private AuthCompanyUseCase authCompanyUseCase;
 
     @PostMapping("/auth")
     public ResponseEntity<Object> create(@RequestBody AuthCompanyDTO authCompanyDTO){
+        // Recebe um objeto AuthCompanyDTO no corpo da requisição para autenticação da empresa
+        // O AuthCompanyDTO deve conter os dados necessários para autenticação, como email e senha
         try{
             // Executa o caso de uso de autenticação com os dados recebidos
             var result = this.authCompanyUseCase.execute(authCompanyDTO);

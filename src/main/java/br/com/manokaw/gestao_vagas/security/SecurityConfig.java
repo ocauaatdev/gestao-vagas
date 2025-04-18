@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableMethodSecurity // Habilita a segurança em métodos, permitindo o uso de anotações como @PreAuthorize
 public class SecurityConfig {
+    // Classe responsável por configurar a segurança da aplicação, incluindo autenticação e autorização de usuários.
+    // Ela define quais rotas são públicas e quais requerem autenticação, além de configurar o filtro de segurança.
 
     @Autowired
     private SecurityFilter securityFilter;

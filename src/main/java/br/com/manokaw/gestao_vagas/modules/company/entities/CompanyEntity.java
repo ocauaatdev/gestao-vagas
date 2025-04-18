@@ -18,6 +18,8 @@ import lombok.Data;
 @Entity(name="company")
 @Data
 public class CompanyEntity {
+    // Essa classe representa a entidade de uma empresa no sistema, ela contém os dados necessários para a autenticação e criação de uma nova empresa.
+
     @Id
     @GeneratedValue (strategy = GenerationType.UUID)
     private UUID id;

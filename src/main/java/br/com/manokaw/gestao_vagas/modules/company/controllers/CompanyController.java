@@ -15,18 +15,21 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
+    // Define que essa classe é um controller REST e que responderá requisições para "/company"
     
     @Autowired
     private CreateCompanyUseCase createCompanyUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<Object> create(@Valid @RequestBody CompanyEntity companyEntity){
+    public ResponseEntity<Object> create(@Valid @RequestBody CompanyEntity companyEntity){ 
+        // Recebe um objeto CompanyEntity no corpo da requisição para criar uma nova empresa
         try{
-            var result = this.createCompanyUseCase.execute(companyEntity);
+            var result = this.createCompanyUseCase.execute(companyEntity); // Executa o caso de uso de criação de empresa com os dados recebidos
+            // Retorna uma resposta HTTP 200 (OK) com o resultado da criação da empresa
             return ResponseEntity.ok().body(result);
         }catch(UserFoundException e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()); // Caso ocorra algum erro (como dados inválidos), retorna HTTP 400 (Bad Request) com a mensagem do erro
         }
        
     }

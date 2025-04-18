@@ -17,11 +17,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.manokaw.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import br.com.manokaw.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
-import br.com.manokaw.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO.AuthCompanyResponseDTOBuilder;
 import br.com.manokaw.gestao_vagas.modules.company.repositories.CompanyRepository;
 
 @Service // Indica que esta classe é um componente do tipo "Service" do Spring (lógica de negócio)
-public class AuthCompanyUseCase {
+public class AuthCompanyUseCase { // Classe responsável por autenticar uma empresa e gerar um token JWT para acesso à API
 
     // Recupera a chave secreta definida no application.properties (ou .yml) para gerar o token JWT
     @Value("${security.token.secret}")

@@ -10,6 +10,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Service
 public class JWTProvider {
+    // Classe responsável por validar o token JWT de um usuário
+    // Ela contém a lógica de validação do token, como verificar a assinatura e a data de expiração.
 
     @Value("${security.token.secret}")
     private String secretKey;

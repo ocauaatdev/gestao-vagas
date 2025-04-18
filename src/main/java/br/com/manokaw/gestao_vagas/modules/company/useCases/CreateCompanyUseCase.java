@@ -9,7 +9,7 @@ import br.com.manokaw.gestao_vagas.modules.company.entities.CompanyEntity;
 import br.com.manokaw.gestao_vagas.modules.company.repositories.CompanyRepository;
 
 @Service
-public class CreateCompanyUseCase {
+public class CreateCompanyUseCase { // Classe responsável por criar uma nova empresa no sistema
 
     @Autowired
     private CompanyRepository companyRepository;

@@ -25,6 +25,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobEntity {
 
+    // Essa classe representa a entidade de um trabalho (vaga) no sistema, ela contém os dados necessários para a criação de uma nova vaga.
+    // Ela possui um relacionamento com a entidade CompanyEntity, onde uma empresa pode ter várias vagas de emprego.
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
