@@ -22,6 +22,12 @@ public class SecurityConfig {
 
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
+
+    private static final String[] SWAGGER_LIST = {
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
+        "/swagger-resources/**"
+    };
     
      // Bean responsável por configurar a cadeia de filtros de segurança
     @Bean
@@ -33,6 +39,7 @@ public class SecurityConfig {
                 auth.requestMatchers("/candidate/").permitAll() // Acesso público à rota /candidate/
                 .requestMatchers("/company/").permitAll() // Acesso público à rota /company/
                 .requestMatchers("/company/auth").permitAll() // Acesso público à rota de autenticação /auth/company
+                .requestMatchers(SWAGGER_LIST).permitAll() // Acesso público à interface Swagger
                 .requestMatchers("/candidate/auth").permitAll();
 
                 // Qualquer outra requisição precisa estar autenticada
