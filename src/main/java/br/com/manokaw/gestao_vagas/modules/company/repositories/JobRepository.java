@@ -12,7 +12,7 @@ public interface JobRepository extends JpaRepository<JobEntity, UUID>{
     // Ela estende a interface JpaRepository, que fornece métodos prontos para realizar essas operações.
     // Não é necessário implementar os métodos, pois o Spring Data JPA já fornece a implementação padrão para os métodos de CRUD.
 
-    List<JobEntity> findByDescriptionContaining(String filter);
+    List<JobEntity> findByDescriptionContainingIgnoreCase(String filter);
     // Método para buscar vagas que contenham o filtro na descrição. O Spring Data JPA irá gerar a consulta SQL automaticamente com base no nome do método.
     
 }
